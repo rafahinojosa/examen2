@@ -25,6 +25,9 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel implements Runnable, Commons { 
 
+    
+    private boolean bTest = false; //variable para probar cosas
+    
     private Dimension dimDimension;
     private ArrayList arlAliens;
     private Player plyPlayer;
@@ -36,6 +39,9 @@ public class Board extends JPanel implements Runnable, Commons {
     private int iDeaths = 0;
 
     private boolean bIngame = true;
+    private boolean bInstrucciones = false; //dice si se muestra instrucciones
+    private boolean bAutores = false; // dice si se muestran los autores
+    private boolean bPause = false; // dice si esta en pausa o no
     private final String strExpl = "explosion.png";
     private final String strAlienpix = "alien.png";
     private String strMessage = "Game Over";
@@ -60,7 +66,7 @@ public class Board extends JPanel implements Runnable, Commons {
     }
 
     public void gameInit() {
-
+        
         arlAliens = new ArrayList();
 
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strAlienpix));
@@ -138,7 +144,7 @@ public class Board extends JPanel implements Runnable, Commons {
     {
       super.paint(g);
 
-      g.setColor(Color.black);
+      g.setColor(Color.white);
       g.fillRect(0, 0, dimDimension.width, dimDimension.height);
       g.setColor(Color.green);   
 
@@ -150,6 +156,10 @@ public class Board extends JPanel implements Runnable, Commons {
         drawShot(g);
         drawBombing(g);
       }
+      if (bTest) {
+        g.drawString("Chocan", 50, 50);
+      }
+      
 
       Toolkit.getDefaultToolkit().sync();
       g.dispose();
@@ -197,12 +207,15 @@ public class Board extends JPanel implements Runnable, Commons {
 
                 if (alien.isVisible() && shtShot.isVisible()) {
                     if (alien.intersecta(shtShot)) {
-                            ImageIcon ii = 
-                                new ImageIcon(getClass().getResource(strExpl));
-                            alien.setImage(ii);
-                            alien.setDying(true);
-                            iDeaths++;
-                            shtShot.die();
+                        
+                        bTest = true;
+                        
+//                        ImageIcon ii = 
+//                            new ImageIcon(getClass().getResource(strExpl));
+//                        alien.setImage(ii);
+//                        alien.setDying(true);
+//                        iDeaths++;
+//                        shtShot.die();
                         }
                 }
             }
@@ -263,17 +276,17 @@ public class Board extends JPanel implements Runnable, Commons {
         // bombs
 
         Iterator ite3 = arlAliens.iterator();
-        Random generator = new Random();
+        Random rndGenerator = new Random();
 
         while (ite3.hasNext()) {
-            int shot = generator.nextInt(15);
+            int shot = rndGenerator.nextInt(15);
             Alien a = (Alien) ite3.next();
-            Alien.Bomb b = a.getBomb();
-            if (shot == CHANCE && a.isVisible() && b.isDestroyed()) {
+            Alien.Bomb bomB = a.getBomb();
+            if (shot == CHANCE && a.isVisible() && bomB.isDestroyed()) {
 
-                b.setDestroyed(false);
-                b.setX(a.getX());
-                b.setY(a.getY());   
+                bomB.setDestroyed(false);
+                bomB.setX(a.getX());
+                bomB.setY(a.getY());   
             }
 
             int bombX = b.getX();
@@ -290,14 +303,14 @@ public class Board extends JPanel implements Runnable, Commons {
                             new ImageIcon(this.getClass().getResource(strExpl));
                         plyPlayer.setImage(ii);
                         plyPlayer.setDying(true);
-                        b.setDestroyed(true);;
+                        bomB.setDestroyed(true);
                     }
             }
 
-            if (!b.isDestroyed()) {
-                b.setY(b.getY() + 1);   
-                if (b.getY() >= GROUND - BOMB_HEIGHT) {
-                    b.setDestroyed(true);
+            if (!bomB.isDestroyed()) {
+                bomB.setY(bomB.getY() + 1);   
+                if (bomB.getY() >= GROUND - BOMB_HEIGHT) {
+                    bomB.setDestroyed(true);
                 }
             }
         }
@@ -310,8 +323,11 @@ public class Board extends JPanel implements Runnable, Commons {
         beforeTime = System.currentTimeMillis();
 
         while (bIngame) {
-            repaint();
-            animationCycle();
+            
+            if (!(bPause  || bAutores || bInstrucciones)) {
+                repaint();
+                animationCycle();
+            }
 
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
@@ -348,6 +364,19 @@ public class Board extends JPanel implements Runnable, Commons {
                     shtShot = new Shot(x, y);
             }
           }
+          if (keyEvent.getKeyCode() == KeyEvent.VK_P)
+          {
+              bPause = !bPause;
+          }
+          if (keyEvent.getKeyCode() == KeyEvent.VK_I)
+          {
+              bInstrucciones = !bInstrucciones;
+          }
+          if (keyEvent.getKeyCode() == KeyEvent.VK_R)
+          {
+              bAutores = !bAutores;
+          }
+          
         }
     }
 }

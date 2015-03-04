@@ -25,20 +25,20 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel implements Runnable, Commons { 
 
-    private Dimension d;
-    private ArrayList aliens;
-    private Player player;
-    private Shot shot;
+    private Dimension dimDimension;
+    private ArrayList arlAliens;
+    private Player plyPlayer;
+    private Shot shtShot;
 
-    private int alienX = 150;
-    private int alienY = 5;
-    private int direction = -1;
-    private int deaths = 0;
+    private int iAlienX = 150;
+    private int iAlienY = 5;
+    private int iDireccion = -1;
+    private int iDeaths = 0;
 
-    private boolean ingame = true;
-    private final String expl = "explosion.png";
-    private final String alienpix = "alien.png";
-    private String message = "Game Over";
+    private boolean bIngame = true;
+    private final String strExpl = "explosion.png";
+    private final String strAlienpix = "alien.png";
+    private String strMessage = "Game Over";
 
     private Thread animator;
 
@@ -47,7 +47,7 @@ public class Board extends JPanel implements Runnable, Commons {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
+        dimDimension = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
         setBackground(Color.black);
 
         gameInit();
@@ -61,22 +61,22 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void gameInit() {
 
-        aliens = new ArrayList();
+        arlAliens = new ArrayList();
 
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(alienpix));
+        ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strAlienpix));
 
         for (int i=0; i < 4; i++) {
             for (int j=0; j < 6; j++) {
-                Alien alien = new Alien(alienX + 18*j, alienY + 18*i);
-                alien.setImage(ii.getImage());
-                aliens.add(alien);
+                Alien alien = new Alien(iAlienX + 18*j, iAlienY + 18*i);
+                alien.setImage(iicImagen);
+                arlAliens.add(alien);
             }
         }
 
-        player = new Player();
-        shot = new Shot();
+        plyPlayer = new Player();
+        shtShot = new Shot();
 
-        if (animator == null || !ingame) {
+        if (animator == null || !bIngame) {
             animator = new Thread(this);
             animator.start();
         }
@@ -84,10 +84,10 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void drawAliens(Graphics g) 
     {
-        Iterator it = aliens.iterator();
+        Iterator iteI = arlAliens.iterator();
 
-        while (it.hasNext()) {
-            Alien alien = (Alien) it.next();
+        while (iteI.hasNext()) {
+            Alien alien = (Alien) iteI.next();
 
             if (alien.isVisible()) {
                 g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
@@ -101,27 +101,29 @@ public class Board extends JPanel implements Runnable, Commons {
 
     public void drawPlayer(Graphics g) {
 
-        if (player.isVisible()) {
-            g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+        if (plyPlayer.isVisible()) {
+            g.drawImage(plyPlayer.getImage(), plyPlayer.getX(),
+                            plyPlayer.getY(), this);
         }
 
-        if (player.isDying()) {
-            player.die();
-            ingame = false;
+        if (plyPlayer.isDying()) {
+            plyPlayer.die();
+            bIngame = false;
         }
     }
 
     public void drawShot(Graphics g) {
-        if (shot.isVisible())
-            g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
+        if (shtShot.isVisible())
+            g.drawImage(shtShot.getImage(), shtShot.getX(),
+                            shtShot.getY(), this);
     }
 
     public void drawBombing(Graphics g) {
 
-        Iterator i3 = aliens.iterator();
+        Iterator ite3 = arlAliens.iterator();
 
-        while (i3.hasNext()) {
-            Alien a = (Alien) i3.next();
+        while (ite3.hasNext()) {
+            Alien a = (Alien) ite3.next();
 
             Alien.Bomb b = a.getBomb();
 
@@ -136,10 +138,10 @@ public class Board extends JPanel implements Runnable, Commons {
       super.paint(g);
 
       g.setColor(Color.black);
-      g.fillRect(0, 0, d.width, d.height);
+      g.fillRect(0, 0, dimDimension.width, dimDimension.height);
       g.setColor(Color.green);   
 
-      if (ingame) {
+      if (bIngame) {
 
         g.drawLine(0, GROUND, BOARD_WIDTH, GROUND);
         drawAliens(g);
@@ -170,75 +172,75 @@ public class Board extends JPanel implements Runnable, Commons {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (BOARD_WIDTH - metr.stringWidth(message))/2, 
+        g.drawString(strMessage, (BOARD_WIDTH - metr.stringWidth(strMessage))/2, 
             BOARD_WIDTH/2);
     }
-
+    
     public void animationCycle()  {
 
-        if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
-            ingame = false;
-            message = "Game won!";
+        if (iDeaths == NUMBER_OF_ALIENS_TO_DESTROY) {
+            bIngame = false;
+            strMessage = "Game won!";
         }
 
         // player
 
-        player.act();
+        plyPlayer.act();
 
         // shot
-        if (shot.isVisible()) {
-            Iterator it = aliens.iterator();
-            int shotX = shot.getX();
-            int shotY = shot.getY();
+        if (shtShot.isVisible()) {
+            Iterator iteI = arlAliens.iterator();
+            int iShotX = shtShot.getX();
+            int iShotY = shtShot.getY();
 
-            while (it.hasNext()) {
-                Alien alien = (Alien) it.next();
+            while (iteI.hasNext()) {
+                Alien alien = (Alien) iteI.next();
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
-                if (alien.isVisible() && shot.isVisible()) {
-                    if (shotX >= (alienX) && 
-                        shotX <= (alienX + ALIEN_WIDTH) &&
-                        shotY >= (alienY) &&
-                        shotY <= (alienY+ALIEN_HEIGHT) ) {
+                if (alien.isVisible() && shtShot.isVisible()) {
+                    if (iShotX >= (alienX) && 
+                        iShotX <= (alienX + ALIEN_WIDTH) &&
+                        iShotY >= (alienY) &&
+                        iShotY <= (alienY+ALIEN_HEIGHT) ) {
                             ImageIcon ii = 
-                                new ImageIcon(getClass().getResource(expl));
-                            alien.setImage(ii.getImage());
+                                new ImageIcon(getClass().getResource(strExpl));
+                            alien.setImage(ii);
                             alien.setDying(true);
-                            deaths++;
-                            shot.die();
+                            iDeaths++;
+                            shtShot.die();
                         }
                 }
             }
 
-            int y = shot.getY();
+            int y = shtShot.getY();
             y -= 4;
             if (y < 0)
-                shot.die();
-            else shot.setY(y);
+                shtShot.die();
+            else shtShot.setY(y);
         }
 
         // aliens
 
-         Iterator it1 = aliens.iterator();
+         Iterator ite1 = arlAliens.iterator();
 
-         while (it1.hasNext()) {
-             Alien a1 = (Alien) it1.next();
+         while (ite1.hasNext()) {
+             Alien a1 = (Alien) ite1.next();
              int x = a1.getX();
 
-             if (x  >= BOARD_WIDTH - BORDER_RIGHT && direction != -1) {
-                 direction = -1;
-                 Iterator i1 = aliens.iterator();
+             if (x  >= BOARD_WIDTH - BORDER_RIGHT && iDireccion != -1) {
+                 iDireccion = -1;
+                 Iterator i1 = arlAliens.iterator();
                  while (i1.hasNext()) {
                      Alien a2 = (Alien) i1.next();
                      a2.setY(a2.getY() + GO_DOWN);
                  }
              }
 
-            if (x <= BORDER_LEFT && direction != 1) {
-                direction = 1;
+            if (x <= BORDER_LEFT && iDireccion != 1) {
+                iDireccion = 1;
 
-                Iterator i2 = aliens.iterator();
+                Iterator i2 = arlAliens.iterator();
                 while (i2.hasNext()) {
                     Alien a = (Alien)i2.next();
                     a.setY(a.getY() + GO_DOWN);
@@ -247,31 +249,31 @@ public class Board extends JPanel implements Runnable, Commons {
         }
 
 
-        Iterator it = aliens.iterator();
+        Iterator ite2 = arlAliens.iterator();
 
-        while (it.hasNext()) {
-            Alien alien = (Alien) it.next();
+        while (ite2.hasNext()) {
+            Alien alien = (Alien) ite2.next();
             if (alien.isVisible()) {
 
                 int y = alien.getY();
 
                 if (y > GROUND - ALIEN_HEIGHT) {
-                    ingame = false;
-                    message = "Invasion!";
+                    bIngame = false;
+                    strMessage = "Invasion!";
                 }
 
-                alien.act(direction);
+                alien.act(iDireccion);
             }
         }
 
         // bombs
 
-        Iterator i3 = aliens.iterator();
+        Iterator ite3 = arlAliens.iterator();
         Random generator = new Random();
 
-        while (i3.hasNext()) {
+        while (ite3.hasNext()) {
             int shot = generator.nextInt(15);
-            Alien a = (Alien) i3.next();
+            Alien a = (Alien) ite3.next();
             Alien.Bomb b = a.getBomb();
             if (shot == CHANCE && a.isVisible() && b.isDestroyed()) {
 
@@ -282,18 +284,18 @@ public class Board extends JPanel implements Runnable, Commons {
 
             int bombX = b.getX();
             int bombY = b.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
+            int playerX = plyPlayer.getX();
+            int playerY = plyPlayer.getY();
 
-            if (player.isVisible() && !b.isDestroyed()) {
+            if (plyPlayer.isVisible() && !b.isDestroyed()) {
                 if ( bombX >= (playerX) && 
                     bombX <= (playerX+PLAYER_WIDTH) &&
                     bombY >= (playerY) && 
                     bombY <= (playerY+PLAYER_HEIGHT) ) {
                         ImageIcon ii = 
-                            new ImageIcon(this.getClass().getResource(expl));
-                        player.setImage(ii.getImage());
-                        player.setDying(true);
+                            new ImageIcon(this.getClass().getResource(strExpl));
+                        plyPlayer.setImage(ii);
+                        plyPlayer.setDying(true);
                         b.setDestroyed(true);;
                     }
             }
@@ -313,7 +315,7 @@ public class Board extends JPanel implements Runnable, Commons {
 
         beforeTime = System.currentTimeMillis();
 
-        while (ingame) {
+        while (bIngame) {
             repaint();
             animationCycle();
 
@@ -334,22 +336,22 @@ public class Board extends JPanel implements Runnable, Commons {
 
     private class TAdapter extends KeyAdapter {
 
-        public void keyReleased(KeyEvent e) {
-            player.keyReleased(e);
+        public void keyReleased(KeyEvent keyEvent) {
+            plyPlayer.keyReleased(keyEvent);
         }
 
-        public void keyPressed(KeyEvent e) {
+        public void keyPressed(KeyEvent keyEvent) {
 
-          player.keyPressed(e);
+          plyPlayer.keyPressed(keyEvent);
 
-          int x = player.getX();
-          int y = player.getY();
+          int x = plyPlayer.getX();
+          int y = plyPlayer.getY();
 
-          if (ingame)
+          if (bIngame)
           {
-            if (e.isAltDown()) {
-                if (!shot.isVisible())
-                    shot = new Shot(x, y);
+            if (keyEvent.getKeyCode() == KeyEvent.VK_ALT) {
+                if (!shtShot.isVisible())
+                    shtShot = new Shot(x, y);
             }
           }
         }

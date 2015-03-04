@@ -1,5 +1,7 @@
 
 import java.awt.Image;
+import java.awt.Rectangle;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,56 +16,79 @@ import java.awt.Image;
 public class Sprite {
 
         private boolean bolVisible;
-        private Image imaImagen;
+        private ImageIcon iicImagen;
         protected int iX;
         protected int iY;
-        protected boolean dying;
-        protected int dx;
+        protected boolean bolDying;
+        protected int iDx;
 
         public Sprite() {
-            visible = true;
+            bolVisible = true;
         }
 
         public void die() {
-            visible = false;
+            bolVisible = false;
         }
 
         public boolean isVisible() {
-            return visible;
+            return bolVisible;
         }
 
         protected void setVisible(boolean visible) {
-            this.visible = visible;
+            this.bolVisible = visible;
         }
 
-        public void setImage(Image image) {
-            this.image = image;
+        public void setImage(ImageIcon imaImagen) {
+            this.iicImagen = imaImagen;
         }
 
         public Image getImage() {
-            return image;
+            return iicImagen.getImage();
         }
 
         public void setX(int x) {
-            this.x = x;
+            this.iX = x;
         }
 
         public void setY(int y) {
-            this.y = y;
+            this.iY = y;
         }
         public int getY() {
-            return y;
+            return iY;
         }
 
         public int getX() {
-            return x;
+            return iX;
+        }
+        
+        public int getAncho() {
+            return iicImagen.getIconWidth();
+        }
+        
+        public int getAlto() {
+            return iicImagen.getIconHeight();
         }
 
         public void setDying(boolean dying) {
-            this.dying = dying;
+            this.bolDying = dying;
         }
 
         public boolean isDying() {
-            return this.dying;
+            return this.bolDying;
         }
+        
+                
+        public boolean intersecta(Object objObjeto) {
+        if (objObjeto instanceof Sprite) {
+            Rectangle rctEste = new Rectangle(this.getX(), this.getY(), 
+                                this.getAncho(), this.getAlto());
+            Sprite sprTemp = (Sprite) objObjeto;
+            Rectangle rctParam = new Rectangle(sprTemp.getX(),sprTemp.getY(),
+                                sprTemp.getAncho(), sprTemp.getAlto());
+            
+            return rctEste.intersects(rctParam);
+        }
+        return false;
+    }
 }
+

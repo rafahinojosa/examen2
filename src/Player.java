@@ -16,40 +16,49 @@ public class Player extends Sprite implements Commons{
 
     private final int START_Y = 280; 
     private final int START_X = 270;
+    
+    private boolean bLeft; // si esta oprimida la tecla a la derecha
+    private boolean bRight; // si esta oprimida la tecla a la izquierda
 
-    private final String player = "player.png";
-    private int width;
+    private final String strPlayer = "player.png";
+    private int iWidth;
 
     public Player() {
 
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(player));
+        ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strPlayer));
 
-        width = ii.getImage().getWidth(null); 
+        iWidth = iicImagen.getImage().getWidth(null); 
 
-        setImage(ii.getImage());
+        setImage(iicImagen);
         setX(START_X);
         setY(START_Y);
     }
 
     public void act() {
-        x += dx;
-        if (x <= 2) 
-            x = 2;
-        if (x >= BOARD_WIDTH - 2*width) 
-            x = BOARD_WIDTH - 2*width;
-    }
-
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT)
-        {
-            dx = -2;
+        
+        if (bLeft || bRight) {
+            iX += iDx;
         }
 
-        if (key == KeyEvent.VK_RIGHT)
+        if (iX <= 2) 
+          iX = 2;
+        if (iX >= BOARD_WIDTH - 2*iWidth) 
+          iX = BOARD_WIDTH - 2*iWidth;
+    }
+
+    public void keyPressed(KeyEvent keyEvent) {
+        int iKey = keyEvent.getKeyCode();
+
+        if (iKey == KeyEvent.VK_LEFT)
         {
-            dx = 2;
+            bLeft = true;
+            iDx = -2;
+        }
+
+        if (iKey == KeyEvent.VK_RIGHT)
+        {
+            bRight = true;
+            iDx = 2;
         }
     }
 
@@ -58,12 +67,14 @@ public class Player extends Sprite implements Commons{
 
         if (key == KeyEvent.VK_LEFT)
         {
-            dx = 0;
+            bLeft = false;
+            iDx = 0;
         }
 
         if (key == KeyEvent.VK_RIGHT)
         {
-            dx = 0;
+            bRight = false;
+            iDx = 0;
         }
     }
 }

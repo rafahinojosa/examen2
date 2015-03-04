@@ -13,10 +13,10 @@ import java.awt.Image;
  */
 public class Sprite {
 
-        private boolean visible;
-        private Image image;
-        protected int x;
-        protected int y;
+        private boolean bolVisible;
+        private Image imaImagen;
+        protected int iX;
+        protected int iY;
         protected boolean dying;
         protected int dx;
 

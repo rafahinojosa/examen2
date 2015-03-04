@@ -13,15 +13,15 @@ import javax.swing.ImageIcon;
  */
 public class Alien extends Sprite {
 
-    private Bomb bomb;
-    private final String shot = "alien.png";
+    private Bomb bomBomb;
+    private final String strShot = "alien.png";
 
     public Alien(int x, int y) {
         this.x = x;
         this.y = y;
 
-        bomb = new Bomb(x, y);
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(shot));
+        bomBomb = new Bomb(x, y);
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(strShot));
         setImage(ii.getImage());
 
     }
@@ -31,19 +31,19 @@ public class Alien extends Sprite {
     }
 
     public Bomb getBomb() {
-        return bomb;
+        return bomBomb;
     }
 
     public class Bomb extends Sprite {
 
-        private final String bomb = "bomb.png";
+        private final String strBomb = "bomb.png";
         private boolean destroyed;
 
         public Bomb(int x, int y) {
             setDestroyed(true);
             this.x = x;
             this.y = y;
-            ImageIcon ii = new ImageIcon(this.getClass().getResource(bomb));
+            ImageIcon ii = new ImageIcon(this.getClass().getResource(strBomb));
             setImage(ii.getImage());
         }
 

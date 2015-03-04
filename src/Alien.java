@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
  *
  * @author http://zetcode.com/
  */
-public class Alien extends Sprite {
+public class Alien extends Sprite implements Commons{
 
     private Bomb bomBomb;
     private final String strShot = "alien.png";
@@ -22,7 +22,7 @@ public class Alien extends Sprite {
         this.iAlto = alto;
         this.iAncho = ancho;
 
-        bomBomb = new Bomb(x, y, alto, ancho);
+        bomBomb = new Bomb(x, y, BOMB_HEIGHT , BOMB_WIDTH);
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strShot));
         setImage(iicImagen);
 

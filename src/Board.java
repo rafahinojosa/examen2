@@ -37,7 +37,7 @@ public class Board extends JPanel implements Runnable, Commons {
 
     private boolean bIngame = true;
     private final String strExpl = "explosion.png";
-    private final String strAlienpix = "alien.png";
+    private final String strAlienpix = "Alien.png";
     private String strMessage = "Game Over";
 
     private Thread animator;

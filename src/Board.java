@@ -25,22 +25,22 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel implements Runnable, Commons { 
 
-    private Dimension dimDimension;
-    private ArrayList arlAliens;
-    private Player plyPlayer;
-    private Shot shtShot;
+    private Dimension dimDimension; // Variable dimension
+    private ArrayList arlAliens; // Lista encadenada de los aliens
+    private Player plyPlayer; // Variable para el jugador
+    private Shot shtShot; // Variable para los disparos
 
-    private int iAlienX = 150;
-    private int iAlienY = 5;
-    private int iDireccion = -1;
-    private int iDeaths = 0;
+    private int iAlienX = 150; // Integer para posicion en x de alien
+    private int iAlienY = 5; // Integer para posicion en y de alien
+    private int iDireccion = -1; // Integer para direccion
+    private int iDeaths = 0; // Integer de numero de muertes
 
-    private boolean bIngame = true;
-    private final String strExpl = "explosion.png";
-    private final String strAlienpix = "Alien.png";
-    private String strMessage = "Game Over";
+    private boolean bIngame = true; // Booleana para saber si esta en juego
+    private final String strExpl = "explosion.png"; // string para imagen
+    private final String strAlienpix = "Alien.png"; // String para imagen
+    private String strMessage = "Game Over"; // streing para mensaje de Gameover
 
-    private Thread animator;
+    private Thread animator; // Comienza hilo
 
     public Board() 
     {
@@ -54,13 +54,20 @@ public class Board extends JPanel implements Runnable, Commons {
         setDoubleBuffered(true);
     }
 
+    /**
+     * Notifica algo
+     */
     public void addNotify() {
         super.addNotify();
         gameInit();
     }
 
+    /**
+     * Se inicializan las variables
+     */
     public void gameInit() {
 
+        // Se crea el arreglo de aliens
         arlAliens = new ArrayList();
 
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strAlienpix));
@@ -73,15 +80,28 @@ public class Board extends JPanel implements Runnable, Commons {
             }
         }
 
-        plyPlayer = new Player();
-        shtShot = new Shot();
+        plyPlayer = new Player(); // se crea el objeto Player
+        shtShot = new Shot(); // se crea el objeto Shot
 
+        // Incializa el hilo animator
         if (animator == null || !bIngame) {
             animator = new Thread(this);
             animator.start();
         }
     }
 
+    /**
+     * drawAliens
+     * 
+     * Metodo sobrescrito de la clase <code>Applet</code>,
+     * heredado de la clase Container.<P>
+     * En este metodo se dibuja las imagenes de los aliens con la posicion
+     * actualizada,ademas que cuando la imagen es cargada te despliega 
+     * una advertencia.
+     * 
+     * @param g es el objeto de <code>Graphics</code> usado para dibujar.
+     * 
+     */
     public void drawAliens(Graphics g) 
     {
         Iterator iteI = arlAliens.iterator();
@@ -99,6 +119,18 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
 
+    /**
+     * drawPlayer
+     * 
+     * Metodo sobrescrito de la clase <code>Applet</code>,
+     * heredado de la clase Container.<P>
+     * En este metodo se dibuja la imagen del player con la posicion
+     * actualizada,ademas que cuando la imagen es cargada te despliega 
+     * una advertencia.
+     * 
+     * @param g es el objeto de <code>Graphics</code> usado para dibujar.
+     * 
+     */
     public void drawPlayer(Graphics g) {
 
         if (plyPlayer.isVisible()) {
@@ -112,12 +144,36 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
 
+    /**
+     * drawShot
+     * 
+     * Metodo sobrescrito de la clase <code>Applet</code>,
+     * heredado de la clase Container.<P>
+     * En este metodo se dibuja la imagen de los shots con la posicion
+     * actualizada,ademas que cuando la imagen es cargada te despliega 
+     * una advertencia.
+     * 
+     * @param g es el objeto de <code>Graphics</code> usado para dibujar.
+     * 
+     */
     public void drawShot(Graphics g) {
         if (shtShot.isVisible())
             g.drawImage(shtShot.getImage(), shtShot.getX(),
                             shtShot.getY(), this);
     }
 
+    /**
+     * drawBombing
+     * 
+     * Metodo sobrescrito de la clase <code>Applet</code>,
+     * heredado de la clase Container.<P>
+     * En este metodo se dibuja las imagenes de las bombas con la posicion
+     * actualizada,ademas que cuando la imagen es cargada te despliega 
+     * una advertencia.
+     * 
+     * @param g es el objeto de <code>Graphics</code> usado para dibujar.
+     * 
+     */
     public void drawBombing(Graphics g) {
 
         Iterator ite3 = arlAliens.iterator();
@@ -133,6 +189,17 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
 
+    /**
+     * paint
+     * 
+     * Metodo sobrescrito de la clase <code>Applet</code>,
+     * heredado de la clase Container.<P>
+     * En este metodo lo que hace es actualizar el contenedor y 
+     * define cuando usar ahora el paint1
+     * 
+     * @param g es el <code>objeto grafico</code> usado para dibujar.
+     * 
+     */
     public void paint(Graphics g)
     {
       super.paint(g);
@@ -154,6 +221,9 @@ public class Board extends JPanel implements Runnable, Commons {
       g.dispose();
     }
 
+    /**
+     * Metodo para poner imagen de GameOver
+     */
     public void gameOver()
     {
 
@@ -176,6 +246,9 @@ public class Board extends JPanel implements Runnable, Commons {
             BOARD_WIDTH/2);
     }
     
+    /**
+     * 
+     */
     public void animationCycle()  {
 
         if (iDeaths == NUMBER_OF_ALIENS_TO_DESTROY) {
@@ -309,6 +382,9 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
 
+    /**
+     * 
+     */
     public void run() {
 
         long beforeTime, timeDiff, sleep;
@@ -334,6 +410,10 @@ public class Board extends JPanel implements Runnable, Commons {
         gameOver();
     }
 
+    /**
+     * 
+     * 
+     */
     private class TAdapter extends KeyAdapter {
 
         public void keyReleased(KeyEvent keyEvent) {

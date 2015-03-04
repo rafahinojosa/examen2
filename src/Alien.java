@@ -9,17 +9,18 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author http://zetcode.com/
+ * @author Gabriel Berlanga y Rafael Hinojosa
  */
 public class Alien extends Sprite {
 
-    private Bomb bomBomb;
-    private final String strShot = "Alien.png";
+    private Bomb bomBomb; // variable de tipo bomba
+    private final String strShot = "Alien.png"; // string para asiganr imagen
 
     public Alien(int x, int y) {
         this.iX = x;
         this.iY = y;
-
+        
+        // se crea objeto bomba
         bomBomb = new Bomb(x, y);
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strShot));
         setImage(iicImagen);
@@ -29,15 +30,21 @@ public class Alien extends Sprite {
     public void act(int direction) {
         this.iX += direction;
     }
-
+    /**
+     * getBomb
+     * 
+     * Metodo para obtener bomBomb
+     * @return  bomBomb
+     */
     public Bomb getBomb() {
         return bomBomb;
     }
 
+    
     public class Bomb extends Sprite {
 
-        private final String strBomb = "bomb.png";
-        private boolean bolDestroyed;
+        private final String strBomb = "bomb.png"; // string para imagen bomb
+        private boolean bolDestroyed; // Booleana de destruido
 
         public Bomb(int x, int y) {
             setDestroyed(true);

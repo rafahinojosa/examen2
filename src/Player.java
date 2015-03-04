@@ -13,8 +13,9 @@ import javax.swing.ImageIcon;
  * @author http://zetcode.com/
  */
 public class Player extends Sprite implements Commons{
-
-    private final int START_Y = 280; 
+    
+    // Posicion incial
+    private final int START_Y = 500; 
     private final int START_X = 270;
     
     private boolean bLeft; // si esta oprimida la tecla a la derecha

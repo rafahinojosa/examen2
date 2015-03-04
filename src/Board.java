@@ -67,7 +67,8 @@ public class Board extends JPanel implements Runnable, Commons {
 
         for (int i=0; i < 4; i++) {
             for (int j=0; j < 6; j++) {
-                Alien alien = new Alien(iAlienX + 18*j, iAlienY + 18*i);
+                Alien alien = new Alien(iAlienX + 18*j, iAlienY + 18*i,
+                                    ALIEN_HEIGHT, ALIEN_WIDTH);
                 alien.setImage(iicImagen);
                 arlAliens.add(alien);
             }
@@ -190,19 +191,12 @@ public class Board extends JPanel implements Runnable, Commons {
         // shot
         if (shtShot.isVisible()) {
             Iterator iteI = arlAliens.iterator();
-            int iShotX = shtShot.getX();
-            int iShotY = shtShot.getY();
 
             while (iteI.hasNext()) {
                 Alien alien = (Alien) iteI.next();
-                int alienX = alien.getX();
-                int alienY = alien.getY();
 
                 if (alien.isVisible() && shtShot.isVisible()) {
-                    if (iShotX >= (alienX) && 
-                        iShotX <= (alienX + ALIEN_WIDTH) &&
-                        iShotY >= (alienY) &&
-                        iShotY <= (alienY+ALIEN_HEIGHT) ) {
+                    if (alien.intersecta(shtShot)) {
                             ImageIcon ii = 
                                 new ImageIcon(getClass().getResource(strExpl));
                             alien.setImage(ii);

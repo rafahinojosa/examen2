@@ -16,11 +16,13 @@ public class Alien extends Sprite {
     private Bomb bomBomb;
     private final String strShot = "alien.png";
 
-    public Alien(int x, int y) {
+    public Alien(int x, int y, int alto, int ancho) {
         this.iX = x;
         this.iY = y;
+        this.iAlto = alto;
+        this.iAncho = ancho;
 
-        bomBomb = new Bomb(x, y);
+        bomBomb = new Bomb(x, y, alto, ancho);
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strShot));
         setImage(iicImagen);
 
@@ -39,10 +41,12 @@ public class Alien extends Sprite {
         private final String strBomb = "bomb.png";
         private boolean bolDestroyed;
 
-        public Bomb(int x, int y) {
+        public Bomb(int x, int y, int alto, int ancho) {
             setDestroyed(true);
             this.iX = x;
             this.iY = y;
+            this.iAlto = alto;
+            this.iAncho = ancho;
             ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strBomb));
             setImage(iicImagen);
         }

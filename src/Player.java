@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
  */
 public class Player extends Sprite implements Commons{
 
-    private final int START_Y = 280; 
+    private final int START_Y = 100; 
     private final int START_X = 270;
     
     private boolean bLeft; // si esta oprimida la tecla a la derecha
@@ -32,6 +32,8 @@ public class Player extends Sprite implements Commons{
         setImage(iicImagen);
         setX(START_X);
         setY(START_Y);
+        setAncho(PLAYER_WIDTH);
+        setAlto(PLAYER_HEIGHT);
     }
 
     public void act() {

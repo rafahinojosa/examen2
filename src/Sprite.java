@@ -17,6 +17,8 @@ public class Sprite {
 
         private boolean bolVisible;
         private ImageIcon iicImagen;
+        protected int iAlto; // alto del sprite
+        protected int iAncho; // ancho del sprite
         protected int iX;
         protected int iY;
         protected boolean bolDying;
@@ -61,12 +63,20 @@ public class Sprite {
             return iX;
         }
         
+        public void setAncho(int ancho) {
+            iAncho = ancho;
+        }
+        
+        public void setAlto(int alto) {
+            iAncho = alto;
+        }
+        
         public int getAncho() {
-            return iicImagen.getIconWidth();
+            return iAncho;
         }
         
         public int getAlto() {
-            return iicImagen.getIconHeight();
+            return iAlto;
         }
 
         public void setDying(boolean dying) {

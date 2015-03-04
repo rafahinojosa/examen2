@@ -382,7 +382,12 @@ public class Board extends JPanel implements Runnable, Commons {
         }
     }
 
-    /**
+    /** 
+     * run
+     * 
+     * Metodo sobrescrito de la clase <code>Thread</code>.<P>
+     * En este metodo se ejecuta el hilo, que contendrá las instrucciones
+     * de nuestro juego.
      * 
      */
     public void run() {
@@ -411,7 +416,7 @@ public class Board extends JPanel implements Runnable, Commons {
     }
 
     /**
-     * 
+     * Son metodos para actualizar la posicion de player
      * 
      */
     private class TAdapter extends KeyAdapter {

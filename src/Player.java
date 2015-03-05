@@ -26,7 +26,8 @@ public class Player extends Sprite implements Commons{
 
     public Player() {
 
-        ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strPlayer));
+        ImageIcon iicImagen = new ImageIcon(this.getClass().
+                              getResource(strPlayer));
 
         iWidth = iicImagen.getImage().getWidth(null); 
 

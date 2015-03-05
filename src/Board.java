@@ -416,7 +416,7 @@ public class Board extends JPanel implements Runnable, Commons {
     }
 
     /**
-     * Son metodos para actualizar la posicion de player
+     * Son metodos para actualizar la posicion de 
      * 
      */
     private class TAdapter extends KeyAdapter {

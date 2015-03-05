@@ -26,7 +26,11 @@ public class Alien extends Sprite {
         setImage(iicImagen);
 
     }
-
+    
+    /**
+     * Metodo que recibe la direccion
+     * @param direction 
+     */
     public void act(int direction) {
         this.iX += direction;
     }
@@ -46,6 +50,12 @@ public class Alien extends Sprite {
         private final String strBomb = "bomb.png"; // string para imagen bomb
         private boolean bolDestroyed; // Booleana de destruido
 
+        
+        /**
+         * Metodo que hace el objeto bomb
+         * @param x
+         * @param y 
+         */
         public Bomb(int x, int y) {
             setDestroyed(true);
             this.iX = x;
@@ -53,11 +63,19 @@ public class Alien extends Sprite {
             ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strBomb));
             setImage(iicImagen);
         }
-
+        
+        /**
+         * Metodo que recibe un booleano
+         * @param destroyed 
+         */
         public void setDestroyed(boolean destroyed) {
             this.bolDestroyed = destroyed;
         }
 
+        /**
+         * Metodo para saber si se destruyo
+         * @return regresa un booleano bolDestroyed
+         */
         public boolean isDestroyed() {
             return bolDestroyed;
         }

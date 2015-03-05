@@ -26,5 +26,6 @@ public class Shot extends Sprite {
         setImage(iicImagen);
         setX(x + H_SPACE);
         setY(y - V_SPACE);
+        
     }
 }

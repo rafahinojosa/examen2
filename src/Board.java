@@ -1,4 +1,6 @@
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -7,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -39,6 +42,11 @@ public class Board extends JPanel implements Runnable, Commons {
     private final String strExpl = "explosion.png"; // string para imagen
     private final String strAlienpix = "Alien.png"; // String para imagen
     private String strMessage = "Game Over"; // streing para mensaje de Gameover
+    
+    private AudioClip aucBajan; // sonido cuando bajan los aliens
+    private AudioClip aucDeadAlien; // sonido cuando una alien muere;
+    private AudioClip aucGameOver; // sonido de gameover
+    private AudioClip aucShot; // sonido cuando disparan
 
     private Thread animator; // Comienza hilo
 
@@ -66,6 +74,21 @@ public class Board extends JPanel implements Runnable, Commons {
      * Se inicializan las variables
      */
     public void gameInit() {
+        
+        //se inicializan los sonidos
+        URL urlSonidoShot = this.getClass().getResource("shot.wav");
+        aucShot = Applet.newAudioClip (urlSonidoShot);
+        
+        URL urlSonidoGameOver = this.getClass().getResource("gameover.wav");
+        aucGameOver= Applet.newAudioClip (urlSonidoGameOver);
+        
+        URL urlSonidoDeadAlien = this.getClass().getResource("deadAlien.wav");
+        aucDeadAlien= Applet.newAudioClip (urlSonidoDeadAlien);
+        
+        URL urlSonidoBajan = this.getClass().getResource("bajan.wav");
+        aucBajan= Applet.newAudioClip (urlSonidoBajan);
+        
+        
 
         // Se crea el arreglo de aliens
         arlAliens = new ArrayList();
@@ -227,6 +250,7 @@ public class Board extends JPanel implements Runnable, Commons {
     public void gameOver()
     {
 
+        aucGameOver.play();
         Graphics g = this.getGraphics();
 
         g.setColor(Color.black);
@@ -435,8 +459,10 @@ public class Board extends JPanel implements Runnable, Commons {
           if (bIngame)
           {
             if (keyEvent.getKeyCode() == KeyEvent.VK_ALT) {
-                if (!shtShot.isVisible())
+                if (!shtShot.isVisible()){
                     shtShot = new Shot(x, y);
+                    aucShot.play();
+                }
             }
           }
         }

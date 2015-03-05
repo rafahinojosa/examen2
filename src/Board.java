@@ -75,7 +75,7 @@ public class Board extends JPanel implements Runnable, Commons {
             for (int j=0; j < 6; j++) {
                 Alien alien = new Alien(iAlienX + 18*j, iAlienY + 18*i,
                                     ALIEN_HEIGHT, ALIEN_WIDTH);
-                alien.setImage(iicImagen);
+                alien.setImage(iicImagen.getImage());
                 arlAliens.add(alien);
             }
         }
@@ -207,15 +207,13 @@ public class Board extends JPanel implements Runnable, Commons {
 
                 if (alien.isVisible() && shtShot.isVisible()) {
                     if (alien.intersecta(shtShot)) {
-                        
-                        bTest = true;
-                        
-//                        ImageIcon ii = 
-//                            new ImageIcon(getClass().getResource(strExpl));
-//                        alien.setImage(ii);
-//                        alien.setDying(true);
-//                        iDeaths++;
-//                        shtShot.die();
+
+                        ImageIcon ii = 
+                            new ImageIcon(getClass().getResource(strExpl));
+                        alien.setImage(ii.getImage());
+                        alien.setDying(true);
+                        iDeaths++;
+                        shtShot.die();
                         }
                 }
             }
@@ -289,19 +287,13 @@ public class Board extends JPanel implements Runnable, Commons {
                 bomB.setY(a.getY());   
             }
 
-            int bombX = b.getX();
-            int bombY = b.getY();
-            int playerX = plyPlayer.getX();
-            int playerY = plyPlayer.getY();
 
-            if (plyPlayer.isVisible() && !b.isDestroyed()) {
-                if ( bombX >= (playerX) && 
-                    bombX <= (playerX+PLAYER_WIDTH) &&
-                    bombY >= (playerY) && 
-                    bombY <= (playerY+PLAYER_HEIGHT) ) {
+
+            if (plyPlayer.isVisible() && !bomB.isDestroyed()) {
+                if (plyPlayer.intersecta(bomB) ) {
                         ImageIcon ii = 
                             new ImageIcon(this.getClass().getResource(strExpl));
-                        plyPlayer.setImage(ii);
+                        plyPlayer.setImage(ii.getImage());
                         plyPlayer.setDying(true);
                         bomB.setDestroyed(true);
                     }
@@ -361,7 +353,7 @@ public class Board extends JPanel implements Runnable, Commons {
           {
             if (keyEvent.getKeyCode() == KeyEvent.VK_ALT) {
                 if (!shtShot.isVisible())
-                    shtShot = new Shot(x, y);
+                    shtShot = new Shot(x, y, SHOT_HEIGHT, SHOT_WIDTH);
             }
           }
           if (keyEvent.getKeyCode() == KeyEvent.VK_P)

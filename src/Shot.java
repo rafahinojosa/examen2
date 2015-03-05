@@ -20,11 +20,13 @@ public class Shot extends Sprite {
     public Shot() {
     }
 
-    public Shot(int x, int y) {
+    public Shot(int x, int y, int alto, int ancho) {
 
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strShot));
-        setImage(iicImagen);
+        setImage(iicImagen.getImage());
         setX(x + H_SPACE);
         setY(y - V_SPACE);
+        setAlto(alto);
+        setAncho(ancho);
     }
 }

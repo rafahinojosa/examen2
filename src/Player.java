@@ -29,7 +29,7 @@ public class Player extends Sprite implements Commons{
 
         iWidth = iicImagen.getImage().getWidth(null); 
 
-        setImage(iicImagen);
+        setImage(iicImagen.getImage());
         setX(START_X);
         setY(START_Y);
         setAncho(PLAYER_WIDTH);

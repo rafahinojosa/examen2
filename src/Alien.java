@@ -24,7 +24,7 @@ public class Alien extends Sprite implements Commons{
 
         bomBomb = new Bomb(x, y, BOMB_HEIGHT , BOMB_WIDTH);
         ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strShot));
-        setImage(iicImagen);
+        setImage(iicImagen.getImage());
 
     }
 
@@ -48,7 +48,7 @@ public class Alien extends Sprite implements Commons{
             this.iAlto = alto;
             this.iAncho = ancho;
             ImageIcon iicImagen = new ImageIcon(this.getClass().getResource(strBomb));
-            setImage(iicImagen);
+            setImage(iicImagen.getImage());
         }
 
         public void setDestroyed(boolean destroyed) {

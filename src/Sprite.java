@@ -1,7 +1,7 @@
 
 import java.awt.Image;
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 public class Sprite {
 
         private boolean bolVisible;
-        private ImageIcon iicImagen;
+        private Image imaImagen;
         protected int iAlto; // alto del sprite
         protected int iAncho; // ancho del sprite
         protected int iX;
@@ -40,12 +40,12 @@ public class Sprite {
             this.bolVisible = visible;
         }
 
-        public void setImage(ImageIcon imaImagen) {
-            this.iicImagen = imaImagen;
+        public void setImage(Image imaImagen) {
+            this.imaImagen = imaImagen;
         }
 
         public Image getImage() {
-            return iicImagen.getImage();
+            return imaImagen;
         }
 
         public void setX(int x) {
@@ -68,7 +68,7 @@ public class Sprite {
         }
         
         public void setAlto(int alto) {
-            iAncho = alto;
+            iAlto = alto;
         }
         
         public int getAncho() {
